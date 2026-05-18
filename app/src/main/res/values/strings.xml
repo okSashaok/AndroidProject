@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NMedia</string>
+    <string name="description_avatar" translatable="false">Post autor avatar</string>
+    <string name="top_text">none</string>
+    <string name="top_datePublication">none</string>
+    <string name="description_baseline_more_vert_24" translatable="false">Button more</string>
+    <string name="main_text">none</string>
+    <string name="bottom_textFavorite" translatable="false">10</string>
+    <string name="bottom_textShare" translatable="false">5</string>
+    <string name="bottom_textVisibility" translatable="false">5</string>
 </resources>
