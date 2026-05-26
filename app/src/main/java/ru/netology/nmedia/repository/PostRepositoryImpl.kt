@@ -19,16 +19,14 @@ class PostRepositoryImpl : PostRepository {
     }
     override fun get() = data
     override fun favorite() {
-        post.favoriteByMe = !post.favoriteByMe
-        if (post.favoriteByMe) {
-            ++post.favorite
-        } else {
-            --post.favorite
-        }
+        post = post.copy(
+            favoriteByMe = !post.favoriteByMe,
+            favorite = if(post.favoriteByMe) post.favorite - 1 else post.favorite + 1
+        )
         update()
     }
     override fun share(){
-        ++post.share
+        post = post.copy(share = post.share + 1)
         update()
     }
 }

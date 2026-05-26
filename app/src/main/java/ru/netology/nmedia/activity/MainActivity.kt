@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity() {
             binding.datePublication.text = post.datePublication
             binding.content.text = post.content
             binding.favorite.text = post.counterFormatting(post.favorite)
-            binding.imageFavorite.setOnClickListener {
-                viewModel.favorite()
-            }
             binding.imageFavorite.setImageResource(if(post.favoriteByMe) R.drawable.favorite_yes_24 else R.drawable.favorite_24)
-            binding.imageShare.setOnClickListener {
-                viewModel.share()
-            }
             binding.share.text = post.counterFormatting(post.share)
+        }
+        binding.imageFavorite.setOnClickListener {
+            viewModel.favorite()
+        }
+        binding.imageShare.setOnClickListener {
+            viewModel.share()
         }
     }
 }
