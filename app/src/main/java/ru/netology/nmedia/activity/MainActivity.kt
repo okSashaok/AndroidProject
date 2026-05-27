@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -25,21 +27,15 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(left, top, right, bottom)
             insets
         }
-        val viewModel by viewModels<PostViewModel>()
+        val viewModel: PostViewModel by viewModels()
+        val adapter = PostsAdapter({
+            viewModel.favoriteById(it.id)
+        })
+        binding.main.adapter = adapter
         viewModel.data.observe(this){
-            post-> Unit
-            binding.author.text = post.author
-            binding.datePublication.text = post.datePublication
-            binding.content.text = post.content
-            binding.favorite.text = post.counterFormatting(post.favorite)
-            binding.imageFavorite.setImageResource(if(post.favoriteByMe) R.drawable.favorite_yes_24 else R.drawable.favorite_24)
-            binding.share.text = post.counterFormatting(post.share)
-        }
-        binding.imageFavorite.setOnClickListener {
-            viewModel.favorite()
-        }
-        binding.imageShare.setOnClickListener {
-            viewModel.share()
+            posts-> Unit
+            //adapter.list = posts
+            adapter.submitList(posts)
         }
     }
 }
