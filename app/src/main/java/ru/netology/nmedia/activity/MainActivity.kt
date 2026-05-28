@@ -28,13 +28,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val viewModel: PostViewModel by viewModels()
-        val adapter = PostsAdapter({
-            viewModel.favoriteById(it.id)
-        })
+        val adapter = PostsAdapter(
+            {
+                viewModel.favoriteById(it.id)
+            },
+            {
+                viewModel.shareById(it.id)
+            }
+        )
         binding.main.adapter = adapter
         viewModel.data.observe(this){
             posts-> Unit
-            //adapter.list = posts
             adapter.submitList(posts)
         }
     }

@@ -9,15 +9,17 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 
-typealias FavoriteListener = (Post)-> Unit
+typealias Listener = (Post) -> Unit
 
-class PostsAdapter(private val favoriteListener: FavoriteListener) :
-    ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
+class PostsAdapter(
+    private val favoriteListener: Listener,
+    private val shareListener: Listener
+) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
             CardPostBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-        return PostViewHolder(binding, favoriteListener)
+        return PostViewHolder(binding, favoriteListener, shareListener)
     }
 
     override fun onBindViewHolder(viewHolder: PostViewHolder, position: Int) {
@@ -25,8 +27,13 @@ class PostsAdapter(private val favoriteListener: FavoriteListener) :
         viewHolder.bind(post)
     }
 }
-class PostViewHolder(private val binding: CardPostBinding, private val favoriteListener: FavoriteListener): RecyclerView.ViewHolder(binding.root){
-    fun bind(post: Post){
+
+class PostViewHolder(
+    private val binding: CardPostBinding,
+    private val favoriteListener: Listener,
+    private val shareListener: Listener
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(post: Post) {
         binding.author.text = post.author
         binding.datePublication.text = post.datePublication
         binding.content.text = post.content
@@ -35,14 +42,13 @@ class PostViewHolder(private val binding: CardPostBinding, private val favoriteL
         binding.share.text = post.counterFormatting(post.share)
         binding.imageFavorite.setOnClickListener {
             favoriteListener(post)
-            //viewModel.favoriteById(post.id)
         }
         binding.imageShare.setOnClickListener {
-            //viewModel.shareById(post.id)
+            shareListener(post)
         }
-
     }
 }
+
 object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem
