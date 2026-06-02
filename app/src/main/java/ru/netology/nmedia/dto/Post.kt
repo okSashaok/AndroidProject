@@ -3,13 +3,13 @@ package ru.netology.nmedia.dto
 import kotlin.Long
 
 data class Post(
-    val id: Long,
-    val author: String,
-    val datePublication: String,
-    val content: String,
-    val favorite: Int,
-    val favoriteByMe: Boolean,
-    val share: Int
+    val id: Long = 0,
+    val author: String = "",
+    val datePublication: String = "",
+    val content: String = "",
+    val favorite: Int = 0,
+    val favoriteByMe: Boolean = false,
+    val share: Int = 0
 ){
     public fun counterFormatting(counter: Int): String {
         if (counter < 1_000) {

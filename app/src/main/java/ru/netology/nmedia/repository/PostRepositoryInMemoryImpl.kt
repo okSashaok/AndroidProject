@@ -95,18 +95,47 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun getAll(): LiveData<List<Post>> = data
     override fun favoriteById(id: Long) {
-        posts = posts.map{
-            if(it.id != id) it else it.copy(
+        posts = posts.map {
+            if (it.id != id) it else it.copy(
                 favoriteByMe = !it.favoriteByMe,
-                favorite = if(it.favoriteByMe) it.favorite - 1 else it.favorite + 1
+                favorite = if (it.favoriteByMe) it.favorite - 1 else it.favorite + 1
             )
         }
         update()
     }
 
     override fun shareById(id: Long) {
-        posts = posts.map{
-            if(it.id != id) it else it.copy(share = it.share + 1)
+        posts = posts.map {
+            if (it.id != id) it else it.copy(share = it.share + 1)
+        }
+        update()
+    }
+
+    override fun save(post: Post) {
+        if (post.id == 0L) {
+            posts = listOf(
+                post.copy(
+                    author = "Me",
+                    favorite = 0,
+                    favoriteByMe = false,
+                    datePublication = "Now"
+                )
+            ) + posts
+        } else {
+            posts = posts.map {
+                if (it.id == post.id) {
+                    it.copy(content = post.content)
+                } else {
+                    it
+                }
+            }
+        }
+        update()
+    }
+
+    override fun removeById(id: Long) {
+        posts = posts.filterNot {
+            it.id == id
         }
         update()
     }

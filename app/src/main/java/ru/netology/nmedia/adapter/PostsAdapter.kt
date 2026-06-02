@@ -2,6 +2,7 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,17 +10,21 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 
-typealias Listener = (Post) -> Unit
+interface PostListener {
+    fun favorite(post: Post)
+    fun share(post: Post)
+    fun edit(post: Post)
+    fun remove(post: Post)
+}
 
 class PostsAdapter(
-    private val favoriteListener: Listener,
-    private val shareListener: Listener
+    private val listener: PostListener
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
             CardPostBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-        return PostViewHolder(binding, favoriteListener, shareListener)
+        return PostViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(viewHolder: PostViewHolder, position: Int) {
@@ -30,8 +35,7 @@ class PostsAdapter(
 
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val favoriteListener: Listener,
-    private val shareListener: Listener
+    private val listener: PostListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.author.text = post.author
@@ -40,11 +44,33 @@ class PostViewHolder(
         binding.favorite.text = post.counterFormatting(post.favorite)
         binding.imageFavorite.setImageResource(if (post.favoriteByMe) R.drawable.favorite_yes_24 else R.drawable.favorite_24)
         binding.share.text = post.counterFormatting(post.share)
+        binding.menu.setOnClickListener {
+            PopupMenu(it.context, it).apply {
+                inflate(R.menu.menu_post)
+                setOnMenuItemClickListener { item ->
+                    Unit
+                    when (item.itemId) {
+                        R.id.remove -> {
+                            listener.remove(post)
+                            true
+                        }
+
+                        R.id.edit -> {
+                            listener.edit(post)
+                            true
+                        }
+
+                        else -> false
+                    }
+                }
+                show()
+            }
+        }
         binding.imageFavorite.setOnClickListener {
-            favoriteListener(post)
+            listener.favorite(post)
         }
         binding.imageShare.setOnClickListener {
-            shareListener(post)
+            listener.share(post)
         }
     }
 }

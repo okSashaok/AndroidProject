@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NMedia</string>
-    <string name="description_avatar" translatable="false">Post autor avatar</string>
+    <string name="description_avatar">Post autor avatar</string>
     <string name="author">none</string>
     <string name="datePublication">none</string>
     <string name="description_baseline_more_vert_24" translatable="false">Button more</string>
@@ -8,4 +8,8 @@
     <string name="favorite" translatable="false">999</string>
     <string name="share" translatable="false">999</string>
     <string name="bottom_textVisibility" translatable="false">5</string>
+    <string name="remove">Remove</string>
+    <string name="input">Input</string>
+    <string name="error_emply_text">Text is blank!</string>
+    <string name="edit">Edit</string>
 </resources>

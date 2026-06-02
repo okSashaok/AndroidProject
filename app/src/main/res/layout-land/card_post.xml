@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/datePublication"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/top_avatar"
-        app:layout_constraintEnd_toStartOf="@id/top_more"
+        app:layout_constraintEnd_toStartOf="@id/menu"
         android:layout_marginStart="-16dp"/>
 
     <TextView
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="@id/top_avatar"/>
 
     <ImageButton
-        android:id="@+id/top_more"
+        android:id="@+id/menu"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:background="#0000"
