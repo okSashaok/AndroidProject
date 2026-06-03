@@ -41,8 +41,10 @@ class PostViewHolder(
         binding.author.text = post.author
         binding.datePublication.text = post.datePublication
         binding.content.text = post.content
-        binding.favorite.text = post.counterFormatting(post.favorite)
-        binding.imageFavorite.setImageResource(if (post.favoriteByMe) R.drawable.favorite_yes_24 else R.drawable.favorite_24)
+        //binding.favorite.text = post.counterFormatting(post.favorite)
+        //binding.imageFavorite.setImageResource(if (post.favoriteByMe) R.drawable.favorite_yes_24 else R.drawable.favorite_24)
+        binding.imageFavorite.isChecked = post.favoriteByMe
+        binding.imageFavorite.text = post.counterFormatting(post.favorite).toString()
         binding.share.text = post.counterFormatting(post.share)
         binding.menu.setOnClickListener {
             PopupMenu(it.context, it).apply {
