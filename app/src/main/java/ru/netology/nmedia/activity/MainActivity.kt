@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.imageCancle.setOnClickListener {
             groupInput.visibility = View.GONE
+            viewModel.cancle()
             binding.input.clearFocus()
             binding.input.setText("")
         }
