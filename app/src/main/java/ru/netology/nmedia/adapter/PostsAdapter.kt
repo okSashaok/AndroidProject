@@ -41,16 +41,26 @@ class PostViewHolder(
         binding.author.text = post.author
         binding.datePublication.text = post.datePublication
         binding.content.text = post.content
-        //binding.favorite.text = post.counterFormatting(post.favorite)
-        //binding.imageFavorite.setImageResource(if (post.favoriteByMe) R.drawable.favorite_yes_24 else R.drawable.favorite_24)
-        binding.imageFavorite.isChecked = post.favoriteByMe
-        binding.imageFavorite.text = post.counterFormatting(post.favorite).toString()
-        binding.share.text = post.counterFormatting(post.share)
-        binding.menu.setOnClickListener {
+        binding.buttonFavorite.isChecked = post.favoriteByMe
+        binding.buttonFavorite.text = post.counterFormatting(post.favorite)
+        binding.buttonFavorite.setOnClickListener {
+            listener.favorite(post)
+        }
+        binding.buttonShare.isChecked = false
+        binding.buttonShare.text = post.share.toString()
+        binding.buttonShare.setOnClickListener {
+            listener.share(post)
+        }
+        binding.buttonVisibility.text = 5.toString()
+        binding.buttonMenu.setOnClickListener {
+            binding.buttonMenu.isChecked = true
             PopupMenu(it.context, it).apply {
                 inflate(R.menu.menu_post)
-                setOnMenuItemClickListener { item ->
-                    Unit
+                setOnDismissListener {
+                    binding.buttonMenu.isChecked = false
+                }
+                setOnMenuItemClickListener {
+                    item -> Unit
                     when (item.itemId) {
                         R.id.remove -> {
                             listener.remove(post)
@@ -67,12 +77,6 @@ class PostViewHolder(
                 }
                 show()
             }
-        }
-        binding.imageFavorite.setOnClickListener {
-            listener.favorite(post)
-        }
-        binding.imageShare.setOnClickListener {
-            listener.share(post)
         }
     }
 }
