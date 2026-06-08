@@ -1,5 +1,6 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -34,6 +35,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val viewModel: PostViewModel by viewModels()
+        val postContract = registerForActivityResult(NewPostContract){
+            result -> Unit
+            result?: return@registerForActivityResult
+            viewModel.save(result)
+        }
         val groupInput = findViewById<Group>(R.id.groupInput)
         groupInput.visibility = View.GONE
         val adapter = PostsAdapter(
@@ -43,7 +49,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun share(post: Post) {
-                    viewModel.shareById(post.id)
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, post.content)
+                    }
+                    val chooser = Intent.createChooser(intent, post.content)
+                    startActivity(chooser)
+                    //viewModel.shareById(post.id)
                 }
 
                 override fun edit(post: Post) {
@@ -60,29 +73,8 @@ class MainActivity : AppCompatActivity() {
             posts-> Unit
             adapter.submitList(posts)
         }
-        viewModel.edited.observe(this){
-            edited -> Unit
-            if(edited.id != 0L){
-                binding.input.setText(edited.content)
-                AndroidUtils.showKeyboard(binding.input)
-            }
-        }
-        binding.imageSave.setOnClickListener {
-            groupInput.visibility = View.GONE
-            val content: String = binding.input.text.toString()
-            if(content.isNullOrBlank()){
-                Toast.makeText(this, R.string.error_emply_text, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            viewModel.save(content)
-            binding.input.clearFocus()
-            binding.input.setText("")
-        }
-        binding.imageCancle.setOnClickListener {
-            groupInput.visibility = View.GONE
-            viewModel.cancle()
-            binding.input.clearFocus()
-            binding.input.setText("")
+        binding.add.setOnClickListener{
+            postContract.launch()
         }
     }
 }
