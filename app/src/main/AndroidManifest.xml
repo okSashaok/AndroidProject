@@ -22,18 +22,21 @@
         </activity>
         <activity
             android:name=".activity.IntentHandlerActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
-        <intent-filter>
-            <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-
-            <data android:mineType="text/plain" />
-        </intent-filter>
-
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.NewPostActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.EditPostActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

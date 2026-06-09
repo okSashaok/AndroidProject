@@ -14,8 +14,7 @@ class PostViewModel: ViewModel() {
     fun shareById(id: Long) = repository.shareById(id)
     val edited = MutableLiveData(emptyPost)
     fun save(content: String){
-        edited.value?.let {
-            post->Unit
+        edited.value?.let { post->
             val trimmed = content.trim()
             if(trimmed != post.content){
                 repository.save(post.copy(content = content))

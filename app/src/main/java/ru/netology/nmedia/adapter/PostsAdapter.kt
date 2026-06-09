@@ -46,9 +46,9 @@ class PostViewHolder(
         binding.buttonFavorite.setOnClickListener {
             listener.favorite(post)
         }
-        binding.buttonShare.isChecked = false
         binding.buttonShare.text = post.share.toString()
         binding.buttonShare.setOnClickListener {
+            binding.buttonShare.isChecked = false
             listener.share(post)
         }
         binding.buttonVisibility.text = 5.toString()
