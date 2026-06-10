@@ -14,5 +14,5 @@
     <string name="chooser_share_post" translatable="false">Share post</string>
     <string name="description_post_save" translatable="false">Post save</string>
     <string name="description_post_edit" translatable="false">Post edit</string>
-    <string name="description_video_preview">Video preview</string>
+    <string name="description_video_preview" translatable="false">Video preview</string>
 </resources>
