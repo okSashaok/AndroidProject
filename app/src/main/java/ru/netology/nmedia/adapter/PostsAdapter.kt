@@ -1,8 +1,11 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +44,16 @@ class PostViewHolder(
         binding.author.text = post.author
         binding.datePublication.text = post.datePublication
         binding.content.text = post.content
+        if (post.video == null) {
+            binding.groupVideo.visibility = View.GONE
+        } else {
+            binding.groupVideo.visibility = View.VISIBLE
+            binding.groupVideo.setOnClickListener {
+                val videoUri = post.video.toUri()
+                val intent = Intent(Intent.ACTION_VIEW, videoUri)
+                it.context.startActivity(intent)
+            }
+        }
         binding.buttonFavorite.isChecked = post.favoriteByMe
         binding.buttonFavorite.text = post.counterFormatting(post.favorite)
         binding.buttonFavorite.setOnClickListener {
@@ -59,8 +72,7 @@ class PostViewHolder(
                 setOnDismissListener {
                     binding.buttonMenu.isChecked = false
                 }
-                setOnMenuItemClickListener {
-                    item -> Unit
+                setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.remove -> {
                             listener.remove(post)
