@@ -1,36 +1,29 @@
-package ru.netology.nmedia.activity
+package ru.netology.nmedia.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.launch
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.EditPostContract
 import ru.netology.nmedia.adapter.PostListener
 import ru.netology.nmedia.adapter.PostsAdapter
-import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            val left = systemBars.left + v.paddingLeft
-            val top = systemBars.top// + v.paddingTop
-            val right = systemBars.right + v.paddingRight
-            val bottom = systemBars.bottom
-            v.setPadding(left, top, right, bottom)
-            insets
-        }
-        val viewModel: PostViewModel by viewModels()
+class FeedFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstaneState: Bundle?
+    ): View {
+        val binding = FragmentFeedBinding.inflate(inflater, container, false)
+        val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
         val editPostContact = registerForActivityResult(EditPostContract) { result ->
             result ?: return@registerForActivityResult
             viewModel.save(result)
@@ -61,18 +54,28 @@ class MainActivity : AppCompatActivity() {
                 override fun remove(post: Post) {
                     viewModel.removeById(post.id)
                 }
+
+                override fun focusOnThePost(post: Post) {
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_postCardFragment,
+                        Bundle().apply {
+                            putLong("postID", post.id)
+                        }
+                    )
+                }
             }
         )
         binding.list.adapter = adapter
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
-        val newPostContract = registerForActivityResult(NewPostContract) { result ->
+        /*val newPostContract = registerForActivityResult(NewPostContract) { result ->
             result ?: return@registerForActivityResult
             viewModel.save(result)
-        }
+        } Удалено*/
         binding.add.setOnClickListener {
-            newPostContract.launch()
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
+        return binding.root
     }
 }

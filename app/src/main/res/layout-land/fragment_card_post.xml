@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:padding="16dp">
 
     <ImageView
@@ -71,6 +74,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
         app:constraint_referenced_ids="videoPreview, imagePlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,6 +137,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
+        android:background="#ffff"
         android:contentDescription="@string/description_avatar"
         app:icon="@drawable/visibility_24"
         app:layout_constraintEnd_toEndOf="parent"

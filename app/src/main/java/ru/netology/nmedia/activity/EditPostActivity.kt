@@ -8,10 +8,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityEditPostBinding
-import ru.netology.nmedia.databinding.ActivityIntentHandlerBinding
-
 class EditPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +19,7 @@ class EditPostActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }// 1. Получаем текст, который передали для редактирования
+        }
         val initialText = intent.getStringExtra(Intent.EXTRA_TEXT)
         binding.editPost.setText(initialText)
         binding.editPost.requestFocus()

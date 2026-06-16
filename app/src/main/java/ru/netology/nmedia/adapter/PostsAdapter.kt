@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.CardPostBinding
+import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
 
 interface PostListener {
@@ -18,6 +18,7 @@ interface PostListener {
     fun share(post: Post)
     fun edit(post: Post)
     fun remove(post: Post)
+    fun focusOnThePost(post: Post)
 }
 
 class PostsAdapter(
@@ -26,7 +27,7 @@ class PostsAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
-            CardPostBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            FragmentCardPostBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return PostViewHolder(binding, listener)
     }
 
@@ -37,7 +38,7 @@ class PostsAdapter(
 }
 
 class PostViewHolder(
-    private val binding: CardPostBinding,
+    private val binding: FragmentCardPostBinding,
     private val listener: PostListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
@@ -89,6 +90,9 @@ class PostViewHolder(
                 }
                 show()
             }
+        }
+        binding.root.setOnClickListener {
+            listener.focusOnThePost(post)
         }
     }
 }
