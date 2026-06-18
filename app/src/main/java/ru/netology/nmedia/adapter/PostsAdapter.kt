@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
+import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.databinding.FragmentCardPostBinding
 import ru.netology.nmedia.dto.Post
 
@@ -27,7 +28,7 @@ class PostsAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
-            FragmentCardPostBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            CardPostBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return PostViewHolder(binding, listener)
     }
 
@@ -38,7 +39,7 @@ class PostsAdapter(
 }
 
 class PostViewHolder(
-    private val binding: FragmentCardPostBinding,
+    private val binding: CardPostBinding,
     private val listener: PostListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {

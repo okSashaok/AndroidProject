@@ -27,7 +27,7 @@
         android:id="@+id/cardPostFragment"
         android:name="ru.netology.nmedia.fragment.CardPostFragment"
         android:label="CardPostFragment"
-        tools:layout="@layout/fragment_card_post">
+        tools:layout="@layout/card_post">
         <argument
             android:name="postID"
             app:argType="long"/>

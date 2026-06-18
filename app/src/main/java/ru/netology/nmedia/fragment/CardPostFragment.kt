@@ -36,30 +36,30 @@ class CardPostFragment : Fragment() {
                 findNavController().navigateUp()
                 return@observe
             }
-            binding.root.isClickable = false
-            binding.author.text = post.author
-            binding.datePublication.text = post.datePublication
-            binding.content.text = post.content
-            binding.buttonFavorite.isChecked = post.favoriteByMe
-            binding.buttonFavorite.text = post.counterFormatting(post.favorite)
-            binding.buttonShare.text = post.share.toString()
-            binding.buttonVisibility.text = "5"
+            binding.cardPost.root.isClickable = false
+            binding.cardPost.author.text = post.author
+            binding.cardPost.datePublication.text = post.datePublication
+            binding.cardPost.content.text = post.content
+            binding.cardPost.buttonFavorite.isChecked = post.favoriteByMe
+            binding.cardPost.buttonFavorite.text = post.counterFormatting(post.favorite)
+            binding.cardPost.buttonShare.text = post.share.toString()
+            binding.cardPost.buttonVisibility.text = "5"
             if(post.video == null){
-                binding.groupVideo.visibility = View.GONE
+                binding.cardPost.groupVideo.visibility = View.GONE
             }
             else{
-                binding.groupVideo.visibility = View.VISIBLE
-                binding.groupVideo.setOnClickListener {
+                binding.cardPost.groupVideo.visibility = View.VISIBLE
+                binding.cardPost.groupVideo.setOnClickListener {
                     val videoUri = post.video.toUri()
                     val intent = Intent(Intent.ACTION_VIEW, videoUri)
                     it.context.startActivity(intent)
                 }
             }
-            binding.buttonFavorite.setOnClickListener {
+            binding.cardPost.buttonFavorite.setOnClickListener {
                 viewModel.favoriteById(post.id)
             }
-            binding.buttonShare.setOnClickListener {
-                binding.buttonShare.isChecked = false
+            binding.cardPost.buttonShare.setOnClickListener {
+                binding.cardPost.buttonShare.isChecked = false
                 val intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     type = "text/plain"
@@ -68,12 +68,12 @@ class CardPostFragment : Fragment() {
                 val chooser = Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(chooser)
             }
-            binding.buttonMenu.setOnClickListener {
-                binding.buttonMenu.isChecked = true
+            binding.cardPost.buttonMenu.setOnClickListener {
+                binding.cardPost.buttonMenu.isChecked = true
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.menu_post)
                     setOnDismissListener {
-                        binding.buttonMenu.isChecked = false
+                        binding.cardPost.buttonMenu.isChecked = false
                     }
                     setOnMenuItemClickListener { item->
                         when(item.itemId){
