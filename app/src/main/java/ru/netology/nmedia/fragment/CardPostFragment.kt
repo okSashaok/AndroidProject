@@ -60,6 +60,7 @@ class CardPostFragment : Fragment() {
             }
             binding.cardPost.buttonShare.setOnClickListener {
                 binding.cardPost.buttonShare.isChecked = false
+                viewModel.shareById(post.id)
                 val intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     type = "text/plain"

@@ -35,6 +35,7 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun share(post: Post) {
+                    viewModel.shareById(post.id)
                     val intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         type = "text/plain"
@@ -43,7 +44,6 @@ class FeedFragment : Fragment() {
                     val chooser =
                         Intent.createChooser(intent, getString(R.string.chooser_share_post))
                     startActivity(chooser)
-                    //viewModel.shareById(post.id)
                 }
 
                 override fun edit(post: Post) {
@@ -69,10 +69,6 @@ class FeedFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
-        /*val newPostContract = registerForActivityResult(NewPostContract) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.save(result)
-        } Удалено*/
         binding.add.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }

@@ -10,7 +10,7 @@ data class Post(
     val favorite: Int = 0,
     val favoriteByMe: Boolean = false,
     val share: Int = 0,
-    val video: String? = null
+    val video: String? = null//"https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
 ){
     public fun counterFormatting(counter: Int): String {
         if (counter < 1_000) {
