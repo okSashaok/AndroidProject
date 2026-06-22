@@ -3,10 +3,13 @@ package ru.netology.nmedia.dao
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.entity.PostEntity
 
 object PostColumns {
-    const val TABLE = "post"
+    const val TABLE = "posts"
     const val COLUMN_ID = "id"
     const val COLUMN_AUTHOR = "author"
     const val COLUMN_CONTENT = "content"
@@ -41,8 +44,8 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
     }
 
 
-    override fun getAll(): List<Post> {
-        val posts = mutableListOf<Post>()
+    override fun getAll(): LiveData<List<PostEntity>> {
+        val posts = mutableListOf<PostEntity>()
         db.query(
             PostColumns.TABLE,
             PostColumns.ALL_COLUMNS,
@@ -53,40 +56,27 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
             "${PostColumns.COLUMN_ID} DESC"
         ).use {
             while (it.moveToNext()) {
-                posts.add(map(it))
+                posts.add(PostEntity.fromDto(map(it)))
             }
         }
-        return posts
+        return MutableLiveData(posts)
     }
 
-    override fun save(post: Post): Post {
+    override fun save(post: PostEntity) {
         val values = ContentValues().apply {
             put(PostColumns.COLUMN_AUTHOR, "Me")
             put(PostColumns.COLUMN_CONTENT, post.content)
             put(PostColumns.COLUMN_DATE_PUBLICATION, "now")
         }
-        val id = if (post.id != 0L) {
+        if (post.id != 0L) {
             db.update(
                 PostColumns.TABLE,
                 values,
                 "${PostColumns.COLUMN_ID} = ?",
                 arrayOf(post.id.toString())
             )
-            post.id
         } else {
             db.insert(PostColumns.TABLE, null, values)
-        }
-        db.query(
-            PostColumns.TABLE,
-            PostColumns.ALL_COLUMNS,
-            "${PostColumns.COLUMN_ID} = ?",
-            arrayOf(id.toString()),
-            null,
-            null,
-            null
-        ).use {
-            it.moveToNext()
-            return map(it)
         }
     }
 
