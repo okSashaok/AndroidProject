@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.ksp)
+    id("com.google.gms.google-services") version "4.5.0"
 }
 
 android {
@@ -54,6 +55,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.gson)
     implementation(libs.androidx.room.runtime)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -15,4 +15,8 @@
     <string name="description_post_save" translatable="false">Post save</string>
     <string name="description_post_edit" translatable="false">Post edit</string>
     <string name="description_video_preview" translatable="false">Video preview</string>
+    <string name="notification_user_favorite" translatable="false">User %1$s favorite %2$s\'s post</string>
+    <string name="channel_remote_name" translatable="false">Server notifications</string>
+    <string name="channel_remote_description" translatable="false">Notifications from remote sever</string>
+    <string name="notification_user_new_post" translatable="false">%1$s</string>
 </resources>
