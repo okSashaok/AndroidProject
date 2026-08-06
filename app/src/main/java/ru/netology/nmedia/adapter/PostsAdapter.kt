@@ -44,7 +44,7 @@ class PostViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.author.text = post.author
-        binding.datePublication.text = post.datePublication
+        binding.datePublication.text = post.datePublication.toString()
         binding.content.text = post.content
         if (post.video == null) {
             binding.groupVideo.visibility = View.GONE
