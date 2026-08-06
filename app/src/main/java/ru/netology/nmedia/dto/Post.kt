@@ -5,7 +5,7 @@ import kotlin.Long
 data class Post(
     val id: Long = 0,
     val author: String = "",
-    val datePublication: String = "",
+    val datePublication: Long = 0,//String = "",
     val content: String = "",
     val favorite: Int = 0,
     val favoriteByMe: Boolean = false,

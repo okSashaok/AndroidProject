@@ -27,12 +27,16 @@ class NewPostFragment : Fragment() {
         arguments?.textArg?.let {
             binding.newPostText.setText(it)
         }
+        viewModel.postCreated.observe(viewLifecycleOwner){
+            AndroidUtils.hideKeyboard(requireView())
+            findNavController().navigateUp()
+            viewModel.load()
+        }
         binding.bottonNew.setOnClickListener {
             val text = binding.newPostText.text.toString()
             if (!text.isBlank()) {
                 viewModel.save(binding.newPostText.text.toString())
             }
-            findNavController().navigateUp()
         }
         return binding.root
     }

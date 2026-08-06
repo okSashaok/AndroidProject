@@ -19,4 +19,7 @@
     <string name="channel_remote_name" translatable="false">Server notifications</string>
     <string name="channel_remote_description" translatable="false">Notifications from remote sever</string>
     <string name="notification_user_new_post" translatable="false">%1$s</string>
+    <string name="no_posts" translatable="false">No posts</string>
+    <string name="network_error" translatable="false">Network_error</string>
+    <string name="retry" translatable="false">Retry</string>
 </resources>
