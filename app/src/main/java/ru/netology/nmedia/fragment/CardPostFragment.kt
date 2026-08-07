@@ -29,7 +29,7 @@ class CardPostFragment : Fragment() {
         }
         val postID = arguments?.getLong("postID")?: return binding.root
         viewModel.data.observe(viewLifecycleOwner){posts->
-            val post = posts.find{
+            val post = posts.posts.find{
                 it.id == postID
             }
             if(post == null){
@@ -38,13 +38,13 @@ class CardPostFragment : Fragment() {
             }
             binding.cardPost.root.isClickable = false
             binding.cardPost.author.text = post.author
-            binding.cardPost.datePublication.text = post.datePublication
+            binding.cardPost.datePublication.text = post.datePublication.toString()
             binding.cardPost.content.text = post.content
             binding.cardPost.buttonFavorite.isChecked = post.favoriteByMe
             binding.cardPost.buttonFavorite.text = post.counterFormatting(post.favorite)
-            binding.cardPost.buttonShare.text = post.share.toString()
+            //binding.cardPost.buttonShare.text = post.share.toString()
             binding.cardPost.buttonVisibility.text = "5"
-            if(post.video == null){
+            /*if(post.video == null){
                 binding.cardPost.groupVideo.visibility = View.GONE
             }
             else{
@@ -54,7 +54,7 @@ class CardPostFragment : Fragment() {
                     val intent = Intent(Intent.ACTION_VIEW, videoUri)
                     it.context.startActivity(intent)
                 }
-            }
+            }*/
             binding.cardPost.buttonFavorite.setOnClickListener {
                 viewModel.favoriteById(post.id)
             }

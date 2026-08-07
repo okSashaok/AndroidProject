@@ -46,7 +46,7 @@ class PostViewHolder(
         binding.author.text = post.author
         binding.datePublication.text = post.datePublication.toString()
         binding.content.text = post.content
-        if (post.video == null) {
+        /*if (post.video == null) {
             binding.groupVideo.visibility = View.GONE
         } else {
             binding.groupVideo.visibility = View.VISIBLE
@@ -55,13 +55,13 @@ class PostViewHolder(
                 val intent = Intent(Intent.ACTION_VIEW, videoUri)
                 it.context.startActivity(intent)
             }
-        }
+        }*/
         binding.buttonFavorite.isChecked = post.favoriteByMe
         binding.buttonFavorite.text = post.counterFormatting(post.favorite)
         binding.buttonFavorite.setOnClickListener {
             listener.favorite(post)
         }
-        binding.buttonShare.text = post.counterFormatting(post.share)
+        //binding.buttonShare.text = post.counterFormatting(post.share)
         binding.buttonShare.setOnClickListener {
             binding.buttonShare.isChecked = false
             listener.share(post)

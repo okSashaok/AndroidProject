@@ -4,12 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.repository.PostRepositoryFileImpl
 import ru.netology.nmedia.repository.PostRepositorySQLiteImpl
+import ru.netology.nmedia.util.SingleLiveEvent
 import kotlin.concurrent.thread
 
 private val emptyPost = Post()
@@ -38,7 +37,21 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _data.postValue(state)
         }
     }
-    fun favoriteById(id: Long) = repository.favoriteById(id)
+    fun favoriteById(id: Long) {
+        thread {
+            try{
+                val updatePost = repository.favoriteById(id)
+                _data.value?.posts?.let {posts ->
+                    val newPosts = posts.map {post ->
+                        if(post.id == id) updatePost else post
+                    }
+                    _data.postValue(FeedModel(posts = newPosts))
+                }
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        }
+    }
     fun shareById(id: Long) = repository.shareById(id)
     fun save(content: String) {
         thread {
