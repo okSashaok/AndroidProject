@@ -120,7 +120,7 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
                 datePublication = /*getString(getColumnIndexOrThrow(*/PostColumns.COLUMN_DATE_PUBLICATION.toLong()/*))*/,
                 favorite = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_FAVORITE)),
                 favoriteByMe = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_FAVORITE_BY_ME)) != 0,
-                share = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_SHARE))
+                //share = getInt(getColumnIndexOrThrow(PostColumns.COLUMN_SHARE))
             )
         }
     }

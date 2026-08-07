@@ -1,16 +1,20 @@
 package ru.netology.nmedia.dto
 
+import com.google.gson.annotations.SerializedName
 import kotlin.Long
 
 data class Post(
     val id: Long = 0,
     val author: String = "",
+    @SerializedName("published")
     val datePublication: Long = 0,//String = "",
     val content: String = "",
+    @SerializedName("likes")
     val favorite: Int = 0,
+    @SerializedName("likedByMe")
     val favoriteByMe: Boolean = false,
-    val share: Int = 0,
-    val video: String? = null//"https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
+    /*val share: Int = 0,
+    val video: String? = null*///"https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
 ){
     public fun counterFormatting(counter: Int): String {
         if (counter < 1_000) {
