@@ -1,11 +1,19 @@
 package ru.netology.nmedia.dto
 
 import com.google.gson.annotations.SerializedName
+import ru.netology.nmedia.enumeration.AttachmentType
 import kotlin.Long
+
+data class Attachment(
+    val url: String,
+    val description: String?,
+    val type: AttachmentType,
+)
 
 data class Post(
     val id: Long = 0,
     val author: String = "",
+    val authorAvatar: String? = null,
     @SerializedName("published")
     val datePublication: Long = 0,//String = "",
     val content: String = "",
@@ -15,6 +23,7 @@ data class Post(
     val favoriteByMe: Boolean = false,
     /*val share: Int = 0,
     val video: String? = null*///"https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
+    var attachment: Attachment? = null
 ){
     public fun counterFormatting(counter: Int): String {
         if (counter < 1_000) {

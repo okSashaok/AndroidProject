@@ -12,6 +12,8 @@ data class PostEntity(
     val id: Long = 0,
     @ColumnInfo(name = "author")
     val author: String = "",
+    @ColumnInfo(name = "authorAvatar")
+    val authorAvatar: String? = null,
     @ColumnInfo(name = "datePublication")
     val datePublication: Long = 0,//String = "",
     @ColumnInfo(name = "content")
@@ -26,11 +28,11 @@ data class PostEntity(
     val video: String? = null
 ) {
     fun toDto(): Post =
-        Post(id, author, datePublication.toLong(), content, favorite, favoriteByMe, /*share, video*/)
+        Post(id, author, authorAvatar, datePublication.toLong(), content, favorite, favoriteByMe, /*share, video*/)
 
     companion object {
         fun fromDto(dto: Post): PostEntity = with(dto) {
-            PostEntity(id, author, datePublication.toLong(), content, favorite, favoriteByMe, /*share, video*/)
+            PostEntity(id, author, authorAvatar, datePublication.toLong(), content, favorite, favoriteByMe, /*share, video*/)
         }
     }
 }

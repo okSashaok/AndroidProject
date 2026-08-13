@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.databinding.FragmentCardPostBinding
@@ -43,6 +44,13 @@ class PostViewHolder(
     private val listener: PostListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
+        Glide.with(binding.topAvatar.context)
+            .load("http://10.0.2.2:9999/avatars/${post.authorAvatar}")
+            .placeholder(R.drawable.ic_loading_100dp)
+            .error(R.drawable.ic_error_100dp)
+            .timeout(30_000)
+            .circleCrop()
+            .into(binding.topAvatar)
         binding.author.text = post.author
         binding.datePublication.text = post.datePublication.toString()
         binding.content.text = post.content

@@ -11,10 +11,8 @@
 
     <ImageView
         android:id="@+id/top_avatar"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginStart="-32dp"
-        android:layout_marginTop="-32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:contentDescription="@string/description_avatar"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +22,7 @@
         android:id="@+id/author"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-16dp"
+        android:layout_marginStart="8dp"
         android:singleLine="true"
         android:text="@string/author"
         app:layout_constraintBottom_toTopOf="@id/datePublication"
@@ -58,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:barrierMargin="-16dp"
+        app:barrierMargin="0dp"
         app:constraint_referenced_ids="top_avatar, datePublication, author" />
 
     <TextView
