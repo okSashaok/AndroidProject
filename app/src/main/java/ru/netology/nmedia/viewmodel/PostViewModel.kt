@@ -19,39 +19,44 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val data: LiveData<FeedModel>
         get() = _data
     val edited = MutableLiveData(emptyPost)
+
     init {
         load()
     }
+
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit>
         get() = _postCreated
-    fun load(){
+
+    fun load() {
         thread {
             _data.postValue(FeedModel(loading = true))
             val state = try {
                 val posts = repository.getAll()
                 FeedModel(posts = posts, empty = posts.isEmpty())
-            } catch (_: Exception){
-                FeedModel(error = true)
+            } catch (e: Exception) {
+                FeedModel(errorCode = e.message.toString())
             }
             _data.postValue(state)
         }
     }
+
     fun favoriteById(id: Long) {
         thread {
-            try{
+            try {
                 val updatePost = repository.favoriteById(id)
-                _data.value?.posts?.let {posts ->
-                    val newPosts = posts.map {post ->
-                        if(post.id == id) updatePost else post
+                _data.value?.posts?.let { posts ->
+                    val newPosts = posts.map { post ->
+                        if (post.id == id) updatePost else post
                     }
                     _data.postValue(FeedModel(posts = newPosts))
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
     fun shareById(id: Long) = repository.shareById(id)
     fun save(content: String) {
         thread {
@@ -63,7 +68,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     _postCreated.postValue(Unit)
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             edited.postValue(emptyPost)

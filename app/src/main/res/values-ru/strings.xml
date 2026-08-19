@@ -9,4 +9,6 @@
     <string name="input">Ввод</string>
     <string name="error_emply_text">Текст пустой!</string>
     <string name="edit">Редактировать</string>
+    <string name="network_error">Сетевая ошибка: %s</string>
+    <string name="retry">Повторить попытку</string>
 </resources>

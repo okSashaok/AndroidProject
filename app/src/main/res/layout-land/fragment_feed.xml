@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".fragment.FeedFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/card_post" />
+
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
@@ -41,13 +48,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/retry"/>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/errorGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="errorTitle,retry"/>
-
     <Button
         android:id="@+id/retry"
         android:text="@string/retry"
@@ -58,12 +58,12 @@
         app:layout_constraintTop_toBottomOf="@id/errorTitle"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/card_post" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="errorTitle,retry"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add"

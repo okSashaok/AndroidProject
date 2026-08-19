@@ -71,7 +71,8 @@ class FeedFragment : Fragment() {
             adapter.submitList(state.posts)
             binding.progress.isVisible = state.loading
             binding.emptyText.isVisible = state.empty
-            binding.errorGroup.isVisible = state.error
+            binding.errorTitle.text = getString(R.string.network_error, state.errorCode)
+            binding.errorGroup.isVisible = if(state.errorCode == "false") false else true
         }
         binding.retry.setOnClickListener {
             viewModel.load()

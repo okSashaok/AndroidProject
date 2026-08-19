@@ -24,6 +24,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -34,9 +35,11 @@ android {
                 "proguard-rules.pro"
             )
             manifestPlaceholders["usesCleartextTraffic"] = false
+            buildConfigField("String", "BASE_URL", "\"https://10.0.2.2:9999/\"")
         }
         debug {
             manifestPlaceholders["usesCleartextTraffic"] = true
+            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:9999/\"")
         }
     }
     compileOptions {
@@ -61,8 +64,10 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
-    implementation(libs.okhttp)
+    implementation(libs.okhttplogging)
     implementation(libs.glide)
+    implementation(libs.retrofit)
+    implementation(libs.retrofitgson)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,48 +1,24 @@
 package ru.netology.nmedia.repository
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import ru.netology.nmedia.api.PostApi
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.entity.PostEntity
-import java.util.concurrent.TimeUnit
 
 class PostRepositorySQLiteImpl : PostRepository {
-    private companion object{
-        const val BASE_URL = "http://10.0.2.2:9999"
-        val jsonType = "application/json".toMediaType()
-        val gson = Gson()
-        val postsType = object : TypeToken<List<Post>>(){}.type
-    }
-    private val client = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).build()
 
     override fun getAll(): List<Post> {
-        val call = client.newCall(
-            Request.Builder().url("$BASE_URL/api/slow/posts").build()
-        )
-        val response = call.execute()
-        val responseText = response.body.string()
-        return gson.fromJson(responseText, postsType)
+        val response = PostApi.service.getAll().execute()
+        if(!response.isSuccessful){
+            throw RuntimeException(response.code().toString())
+        }
+        return response.body().orEmpty()
     }
 
-    override fun save(post: Post): Post {
-        val call = client.newCall(
-            Request.Builder()
-                .url("$BASE_URL/api/slow/posts")
-                .post(gson.toJson(post).toRequestBody(jsonType))
-                .build()
-        )
-        val response = call.execute()
-        val responseText = response.body.string()
-        return gson.fromJson(responseText, Post::class.java)
+    override fun save(post: Post) {
+        PostApi.service.save(post).execute()
     }
 
     override fun favoriteById(id: Long): Post {
-        val getRequest = Request.Builder()
+        /*val getRequest = Request.Builder()
             .url("$BASE_URL/api/posts/$id")
             .get()
             .build()
@@ -50,7 +26,7 @@ class PostRepositorySQLiteImpl : PostRepository {
         val postJson = getResponse.body.string()
         val currentPost = gson.fromJson(postJson, Post::class.java)
         val requestBuilder = Request.Builder().url("$BASE_URL/api/slow/posts/$id/likes")
-        val request = if(currentPost.favoriteByMe){
+        val request = if (currentPost.favoriteByMe) {
             requestBuilder.delete().build()
         } else {
             requestBuilder.post("".toRequestBody()).build()
@@ -58,7 +34,8 @@ class PostRepositorySQLiteImpl : PostRepository {
         val call = client.newCall(request)
         val response = call.execute()
         val responseText = response.body.string()
-        return gson.fromJson(responseText, Post::class.java)
+        return gson.fromJson(responseText, Post::class.java)*/
+        return Post()
     }
 
     override fun shareById(id: Long) {
@@ -66,12 +43,6 @@ class PostRepositorySQLiteImpl : PostRepository {
     }
 
     override fun removeById(id: Long) {
-        val call = client.newCall(
-            Request.Builder()
-                .url("$BASE_URL/api/slow/posts/$id")
-                .delete()
-                .build()
-        )
-        call.execute()
+        PostApi.service.deleteById(id).execute()
     }
 }
